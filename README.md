@@ -176,7 +176,8 @@ kafka-topics --create --topic to_replicate --bootstrap-server broker:29092
 Using kafka-console-producer start pushing messages into it:
 
 ```while [[ true ]]; do echo "$RANDOM" |  kafka-console-producer --topic to_replicate --bootstrap-server broker:29092; sleep 1; done & ```
-Starting the topic’s mirroring
+
+### Starting the topic’s mirroring
 Let’s return back to our ‘connect’ container
 
 For creating/deleting/modifying/monitoring connectors Kafka Connect provides REST API, nicely described in the docs. For now we should use only /connectorsendpoint.
