@@ -1,0 +1,13 @@
+{
+  "name":"test_mirror",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.mirror.MirrorSourceConnector",
+    "name":"test_mirror",
+    "source.cluster.alias":"source",
+    "topics":"to_replicate",
+    "source.cluster.bootstrap.servers":"broker:29092",
+    "target.cluster.bootstrap.servers":"broker2:29093",
+    "producer.override.bootstrap.servers":"broker2:29093",
+    "offset-syncs.topic.replication.factor":"1"
+  }
+}
