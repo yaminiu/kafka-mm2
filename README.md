@@ -7,12 +7,13 @@ Connector already existed for that type of task. Its name is Mirror Maker 2.0. t
 
 The best choice for locally deploying all services from this tutorial is to use Docker. So we need Docker installed on our local system. Step by step we will create the docker-compose configuration file. After that by executing only one single command we will get all the services up and running.
 
-Our Docker Compose will deploy these services:
+### Our Docker Compose will deploy these services:
 
   - Apache Kafka — 2 units
   - Apache Zookeeper — 2 units 
   - Kafka Connect — 1 unit.
-Confluent provides very handy conflueninc docker images for the these services, allowing you to configure them only by setting environment variables:
+    
+### Confluent provides very handy conflueninc docker images for the these services, allowing you to configure them only by setting environment variables:
   - confluentinc/cp-zookeeper:6.2.0
   - confluentinc/cp-kafka:6.2.0
   - confluentinc/cp-kafka-connect:6.2.0
