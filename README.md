@@ -208,17 +208,19 @@ To add a new connector we have to POST configuration in JSON format.  Create con
 Finally, we are ready to start the the process of mirroring! Preform the POST request for creating a new connector:
 
 
-```cat connectors.json | curl -X POST -H 'Content-Type: application/json' localhost:28082/connectors --data-binary @-
-To check that connector has been created:```
+```cat connectors.json | curl -X POST -H 'Content-Type: application/json' localhost:28082/connectors --data-binary @-```
+
+### To check that connector has been created:
 
 ```curl localhost:28082/connectors```
 Response should contain an array with our connector’s name.
 
-Validating
+### Validating
 Lets visit our second broker from the new terminal:
 
 ```docker exec -it broker2 /bin/bash```
-and take a look at its topics:
+
+### take a look at its topics:
 
 ```kafka-topics --list --bootstrap-server broker2:29093```
 Here we go: there is a topic with name source.to-replicate. As expected, the name consists of prefix from the property source.cluster.alias plus dot plus source topic name (dot is a default separator, it also can be configured).
