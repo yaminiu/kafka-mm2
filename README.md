@@ -86,23 +86,22 @@ services:
 
 Notice how configuration properties were provided at the “environment” section! Corresponding “KAFKA_” and “ZOOKEEPER_” prefixes were added according to the convention for confluentinc images. Other sections are the standard Docker boilerplate and those for setting the images, ports, networks, dependencies, etc.
 
-Let’s pay attention on the next broker’s environment variables:
+###  broker’s environment variables:
 
-KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 — this is because our cluster consists of only 1 standalone broker, so we can’t replicate any topic.
-KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer with
-KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true" — for the sake of simplicity in this tutorial I turned off all the security settings. Do not do that in your production environment!
-Configuration of the Kafka Connect and deploying services
-Let’s take a look at Kafka Connect’s configuration parameters and then use them for our setup:
+- KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 — this is because our cluster consists of only 1 standalone broker, so we can’t replicate any topic.
+- KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer with
+- KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true" — for the sake of simplicity in this tutorial I turned off all the security settings. Do not do that in your production environment!
 
-bootstrap.servers —a list of Kafka bootstrap servers. Here we will set the first broker: broker:29092
-rest.port — port exposed by Kafka Connect daemon for the REST requests
-group.id — name of Kafka Connect’s cluster. It doesn’t mean anything in this case, because we only have a standalone instance
-config.storage.topic, offset_storage_topic, status_storage_topic — names of service topics where Kafka Connect will store configs, offsets, statuses of the connectors and the tasks. Kafka Connect will automatically create them in Kafka Cluster which is specified at bootstrap.servers property
-config.storage.replication.factor, offset.storage.replication.factor, status.storage.replication.factor — replication factors of the these topics. Again, we have only standalone brokers, so we will set all of this values to 1
-key.converter, value.converter — classes, that will serve for serializing and deserializing the messages. We will turn both of them into org.apache.kafka.connect.converters.ByteArrayConverter
-connector.client.config.override.policy — policy for overriding configuration of Kafka Connect by the Connectors. By setting it to All, we can override anything
-Kafka Connect confluentinc Docker image should be also configured by using environment variables. According to the convention we should append the following snippet to the docker-compose.yml file:
-
+### Configuration of the Kafka Connect and deploying services
+- bootstrap.servers —a list of Kafka bootstrap servers. Here we will set the first broker: broker:29092
+- rest.port — port exposed by Kafka Connect daemon for the REST requests
+- group.id — name of Kafka Connect’s cluster. It doesn’t mean anything in this case, because we only have a standalone instance
+- config.storage.topic, offset_storage_topic, status_storage_topic — names of service topics where Kafka Connect will store configs, offsets, statuses of the connectors and the tasks. Kafka Connect will automatically create them in Kafka Cluster which is specified at bootstrap.servers property
+- config.storage.replication.factor, offset.storage.replication.factor, status.storage.replication.factor — replication factors of the these topics. Again, we have only standalone brokers, so we will set all of this values to 1
+- key.converter, value.converter — classes, that will serve for serializing and deserializing the messages. We will turn both of them into org.apache.kafka.connect.converters.ByteArrayConverter
+- connector.client.config.override.policy — policy for overriding configuration of Kafka Connect by the Connectors. By setting it to All, we can override anything
+  
+### Kafka Connect confluentinc Docker image should be also configured by using environment variables. According to the convention we should append the following snippet to the docker-compose.yml file:
 
 ```  
 connect:
@@ -135,9 +134,7 @@ connect:
       - CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY=All
 ```
 
-(Be careful with an indentations! Configuration snippets from this article are available at my Github Gists)
-
-Now, our services are ready to be deployed! Change the directory withcd, to the directory containing the docker-compose.yml file and execute the following:
+### Change the directory withcd, to the directory containing the docker-compose.yml file and execute the following:
 
 ```docker-compose up -d```
 In a short while, check out docker ps command. It should look like this:
