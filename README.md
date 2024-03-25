@@ -175,13 +175,14 @@ kafka-topics --create --topic to_replicate --bootstrap-server broker:29092
 ```
 Using kafka-console-producer start pushing messages into it:
 
-```while [[ true ]]; do echo "$RANDOM" |  kafka-console-producer --topic to_replicate --bootstrap-server broker:29092; sleep 1; done &
-Starting the topic’s mirroring```
+```while [[ true ]]; do echo "$RANDOM" |  kafka-console-producer --topic to_replicate --bootstrap-server broker:29092; sleep 1; done & ```
+Starting the topic’s mirroring
 Let’s return back to our ‘connect’ container
 
 For creating/deleting/modifying/monitoring connectors Kafka Connect provides REST API, nicely described in the docs. For now we should use only /connectorsendpoint.
 
-To add a new connector we have to POST configuration in JSON format. I tried to provide the most minimal configuration for the connector. Create connectors.json file (e.g. via cat command):
+To add a new connector we have to POST configuration in JSON format.  Create connectors.json file (e.g. via cat command):
+
 ```
 {
   "name":"test_mirror",
@@ -197,13 +198,14 @@ To add a new connector we have to POST configuration in JSON format. I tried to 
   }
 }
 ```
-name — the name of the connector, which should be unique
-connector.class — org.apache.kafka.connect.mirror.MirrorSourceConnector for Mirror Maker 2.0 Connector
-source.cluster.alias — name of a Kafka source cluster. By default this will become a prefix at the mirrored topic
-topics — comma-separated list of topics to be mirrored
-source.cluster.bootstrap.servers , source.cluster.bootstrap.servers, producer.override.bootstrap.servers — clusters bootstrap servers. The last one is also required, otherwise mirrored data will be written back into the source cluster
-offset-syncs.topic.replication.factor — as with previous replication factors should be set to 1, otherwise offset’s topics will fail during the process of creation
+- name — the name of the connector, which should be unique
+- connector.class — org.apache.kafka.connect.mirror.MirrorSourceConnector for Mirror Maker 2.0 Connector
+- source.cluster.alias — name of a Kafka source cluster. By default this will become a prefix at the mirrored topic
+- topics — comma-separated list of topics to be mirrored
+- source.cluster.bootstrap.servers , source.cluster.bootstrap.servers, producer.override.bootstrap.servers — clusters bootstrap servers. The last one is also required, otherwise mirrored data will be written back into the source cluster
+- offset-syncs.topic.replication.factor — as with previous replication factors should be set to 1, otherwise offset’s topics will fail during the process of creation
 Finally, we are ready to start the the process of mirroring! Preform the POST request for creating a new connector:
+
 
 ```cat connectors.json | curl -X POST -H 'Content-Type: application/json' localhost:28082/connectors --data-binary @-
 To check that connector has been created:```
