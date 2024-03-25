@@ -9,14 +9,14 @@ The best choice for locally deploying all services from this tutorial is to use 
 
 Our Docker Compose will deploy these services:
 
-Apache Kafka — 2 units
-Apache Zookeeper — 2 units (I guess it’s possible to use single zookeeper instance for two Kafka’s clusters but for sake of simplicity I will provide separate Zookeeper for each Kafka)
-Kafka Connect — 1 unit.
+  - Apache Kafka — 2 units
+  - Apache Zookeeper — 2 units 
+  - Kafka Connect — 1 unit.
 Confluent provides very handy conflueninc docker images for the these services, allowing you to configure them only by setting environment variables:
-confluentinc/cp-zookeeper:6.2.0
-confluentinc/cp-kafka:6.2.0
-confluentinc/cp-kafka-connect:6.2.0
-Foundations
+  - confluentinc/cp-zookeeper:6.2.0
+  - confluentinc/cp-kafka:6.2.0
+  - confluentinc/cp-kafka-connect:6.2.0
+
 
 ```
 ---
